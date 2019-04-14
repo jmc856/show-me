@@ -6,7 +6,7 @@ import {Button, Icon} from "semantic-ui-react";
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const scopes = 'user-read-private user-read-email';
-const REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
+// const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_RUI;
 
 
 class App extends Component {
@@ -36,6 +36,7 @@ class App extends Component {
   }
 
   isTokenExpired() {
+    console.log(process.env)
     let expired = true;
     const token = window.localStorage.getItem('spotifyAccessToken');
     if (token && JSON.parse(token)) {
@@ -46,6 +47,7 @@ class App extends Component {
   }
 
   render() {
+    const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_RUI;
     return (
       <div className="App">
         <header className="App-header">

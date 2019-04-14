@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 
 import '../../../App.css';
 
-import { Icon, Segment, Table } from "semantic-ui-react";
+import { Icon, Table } from "semantic-ui-react";
 
 import {
   getRelatedArtists,
