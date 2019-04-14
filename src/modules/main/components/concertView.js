@@ -1,0 +1,90 @@
+import React, { Component } from 'react';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+
+import '../../../App.css';
+
+import { Icon, Segment, Table } from "semantic-ui-react";
+
+import {
+  getRelatedArtists,
+} from '../../../modules/spotify/actions';
+import {
+  getConcertsFromSpotifyArtistList,
+} from "../../../modules/songkick/actions";
+
+import * as actionCreators from "../actions";
+
+
+
+class ConcertView extends Component {
+  state = {
+    relatedArtists: [],
+  };
+
+  componentDidMount() {
+    this._findConcerts(this.props.selectedArtist)
+  }
+
+  _findConcerts = async(selectedArtist) => {
+    const relatedArtists = await getRelatedArtists(selectedArtist.id);
+    const concerts = await getConcertsFromSpotifyArtistList(relatedArtists);
+    this.props.concertActions.setConcerts(concerts);
+    setTimeout(() => {this.forceUpdate();}, 1000)
+  };
+
+  _getConcertRows() {
+    return this.props.concerts.map((concert, i) => {
+      const name = concert.displayName;
+      const metroId = concert.venue.metroArea.id;
+      const artistName = concert.performance[0].artist.displayName;
+      return (
+        metroId === this.props.selectedLocation.metroArea.id &&
+        <Table.Row key={i}>
+          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>{artistName}</Table.Cell>
+          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>
+            <a href={concert.uri}>{name}</a>
+          </Table.Cell>
+          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}> venue </Table.Cell>
+          <Table.Cell textAlign='center' style={{fontSize: '14px', color: '#2b2b1b'}}>
+            <Icon disabled name='plus' />
+          </Table.Cell>
+        </Table.Row>
+      );
+    })
+  }
+
+  render() {
+    return (
+      <Table size='small' celled padded>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell singleLine>Related Artist</Table.HeaderCell>
+            <Table.HeaderCell>Concert</Table.HeaderCell>
+            <Table.HeaderCell>Venue</Table.HeaderCell>
+            <Table.HeaderCell>Add to my concerts list</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+       { this.props.concerts && this._getConcertRows() }
+        </Table.Body>
+      </Table>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+    return {
+      concerts: state.concerts,
+      selectedLocation: state.selectedLocation,
+      selectedArtist: state.selectedArtist,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        concertActions: bindActionCreators(actionCreators, dispatch),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConcertView);
