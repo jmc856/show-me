@@ -1,4 +1,4 @@
-const apiKey = process.env.SONGKICK_API_KEY;
+const apiKey = process.env.REACT_APP_SONGKICK_API_KEY;
 
 async function makeSongkickRequest(url, method) {
   const options = {
