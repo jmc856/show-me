@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import { Icon, Table } from "semantic-ui-react";
-
+import songkickLogo from '../../../assets/songkick/powered-by-songkick-white.png'
 import * as actionCreators from "../actions";
 
 import '../../../App.css';
@@ -54,21 +54,29 @@ class ConcertView extends Component {
     })
   }
 
+  getSongKickLogo() {
+    return <img src={songkickLogo} alt="Logo" height="30px" />
+  }
+
   render() {
+    const concerts = this.props.concerts;
     return (
-      <Table size='small' celled padded>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell singleLine>Related Artist</Table.HeaderCell>
-            <Table.HeaderCell>Concert</Table.HeaderCell>
-            <Table.HeaderCell>Venue</Table.HeaderCell>
-            <Table.HeaderCell>Add to my concerts list</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-       { this.props.concerts && this._getConcertRows() }
-        </Table.Body>
-      </Table>
+      <div>
+        <Table size='small' celled padded>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell singleLine>Related Artist</Table.HeaderCell>
+              <Table.HeaderCell>Concert</Table.HeaderCell>
+              <Table.HeaderCell>Venue</Table.HeaderCell>
+              <Table.HeaderCell>Add to my list</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+         { concerts.length > 0 && this._getConcertRows() }
+          </Table.Body>
+        </Table>
+        { concerts.length > 0 && this.getSongKickLogo() }
+      </div>
     );
   }
 }
