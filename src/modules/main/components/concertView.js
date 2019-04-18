@@ -72,10 +72,10 @@ class ConcertView extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-         { concerts.length > 0 && this._getConcertRows() }
+         { concerts && this._getConcertRows() }
           </Table.Body>
         </Table>
-        { concerts.length > 0 && this.getSongKickLogo() }
+        { (concerts && concerts.length > 0) && this.getSongKickLogo() }
       </div>
     );
   }
