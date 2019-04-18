@@ -2,19 +2,14 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import '../../../App.css';
-
 import { Icon, Table } from "semantic-ui-react";
-
-import {
-  getRelatedArtists,
-} from '../../../modules/spotify/actions';
-import {
-  getConcertsFromSpotifyArtistList,
-} from "../../../modules/songkick/actions";
 
 import * as actionCreators from "../actions";
 
+import '../../../App.css';
+
+import { getRelatedArtists } from '../../../modules/spotify/actions';
+import { getConcertsFromSpotifyArtistList } from "../../../modules/songkick/actions";
 
 
 class ConcertView extends Component {
@@ -30,6 +25,7 @@ class ConcertView extends Component {
     const relatedArtists = await getRelatedArtists(selectedArtist.id);
     const concerts = await getConcertsFromSpotifyArtistList(relatedArtists);
     this.props.concertActions.setConcerts(concerts);
+    // NOTE: Timeout is a hack for re-rendering after concerts are set
     setTimeout(() => {this.forceUpdate();}, 1000)
   };
 
@@ -37,15 +33,19 @@ class ConcertView extends Component {
     return this.props.concerts.map((concert, i) => {
       const name = concert.displayName;
       const metroId = concert.venue.metroArea.id;
+      const venueName = concert.venue.displayName;
+      const venueUri = concert.venue.uri;
       const artistName = concert.performance[0].artist.displayName;
       return (
         metroId === this.props.selectedLocation.metroArea.id &&
         <Table.Row key={i}>
           <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>{artistName}</Table.Cell>
           <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>
-            <a href={concert.uri}>{name}</a>
+            <a href={concert.uri} target="_blank">{name}</a>
           </Table.Cell>
-          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}> venue </Table.Cell>
+          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>
+            <a href={venueUri} target="_blank">{venueName}</a>
+          </Table.Cell>
           <Table.Cell textAlign='center' style={{fontSize: '14px', color: '#2b2b1b'}}>
             <Icon disabled name='plus' />
           </Table.Cell>

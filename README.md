@@ -3,7 +3,11 @@
 BUGS
 - ..
 
+Code Cleanup
+- ..
+
 Improvements (Necessary)
+- Show all related artists in list
 - Add loading spinner for concerts
 - Better highlighting on Menu tabs
 

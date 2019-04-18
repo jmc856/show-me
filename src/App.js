@@ -6,7 +6,7 @@ import {Button, Icon} from "semantic-ui-react";
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 const scopes = 'user-read-private user-read-email';
-const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_RUI;
+const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
 
 
 class App extends Component {
@@ -35,7 +35,17 @@ class App extends Component {
     }
   }
 
-  isTokenExpired() {
+  static getAuthorizationUrl() {
+    return 'https://accounts.spotify.com/authorize' +
+      '?response_type=token' +
+      '&client_id=' +
+      CLIENT_ID +
+      (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+      '&redirect_uri=' +
+      encodeURIComponent(REDIRECT_URI)
+  }
+
+  static _isSpotifyTokenExpired() {
     let expired = true;
     const token = window.localStorage.getItem('spotifyAccessToken');
     if (token && JSON.parse(token)) {
@@ -50,15 +60,11 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           {
-            this.isTokenExpired() ?
+            App._isSpotifyTokenExpired() ?
             <div>
               <Button
                 color='olive'
-                href={'https://accounts.spotify.com/authorize' +
-                '?response_type=token' +
-                '&client_id=' + CLIENT_ID +
-                (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-                '&redirect_uri=' + encodeURIComponent(REDIRECT_URI)}>
+                href={ App.getAuthorizationUrl() }>
                 <Icon name='spotify' /> Login to Spotify
               </Button>
             </div> :
