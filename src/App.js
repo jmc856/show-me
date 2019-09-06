@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import MainContainer from './modules/main/components/mainContainer';
-
+import ShowMe from "./modules/main/components/showMe";
 import {Button, Icon} from "semantic-ui-react";
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
@@ -62,6 +62,10 @@ class App extends Component {
           {
             App._isSpotifyTokenExpired() ?
             <div>
+              <ShowMe/>
+              <p style={{ fontSize: '1em' }}>
+                This application requires you to log into your Spotify account to search for Artists
+              </p>
               <Button
                 color='olive'
                 href={ App.getAuthorizationUrl() }>

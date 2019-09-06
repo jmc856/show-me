@@ -49,6 +49,11 @@ export default function appReducer(state = initialState, action) {
         ...state,
         accessToken: action.accessToken,
       };
+    case actions.LIST_GOOGLE_CALENDAR_EVENTS:
+      return {
+        ...state,
+        googleCalendarEvents: action.googleCalendarEvents
+      };
     case actions.RESET_PROPS:
       return {
         ...initialState,
