@@ -20,7 +20,7 @@ Code Cleanup
 - Rename files
 
 Improvements (Necessary)
-- The white when you scroll is annoying 
+- Remove white when scrolling page
 - Concerts should list in order of date
 - Show all related artists in list
 - Add loading spinner for concerts
