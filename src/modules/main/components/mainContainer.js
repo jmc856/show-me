@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+
+import "semantic-ui-css/semantic.min.css";
 import '../../../App.css';
 
+import * as actionCreators from "../actions";
+
 import {Header, Menu} from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
 
 import ArtistSearch from './artistSearch';
 import ConcertView from './concertView';
-import LocationSearch from './locationSearch'
-import {bindActionCreators} from "redux";
-import * as actionCreators from "../actions";
-import {connect} from "react-redux";
+import GoogleCalendarList from './googleCalendarList';
+import LocationSearch from './locationSearch';
+import NotFound from './NotFound';
 
 
 class MainContainer extends Component {
@@ -54,13 +58,18 @@ class MainContainer extends Component {
             onClick={this.reset}>
             Reset All
           </Menu.Item>
+          <Menu.Item
+            name='events'
+            onClick={this.handleItemClick}>
+            My Events
+          </Menu.Item>
         </Menu>
       )
     }
 
   showComponent() {
     let component = null;
-    switch(this.props.activeTab) {
+    switch (this.props.activeTab) {
       case('location'):
         component = <LocationSearch/>;
         break;
@@ -69,6 +78,13 @@ class MainContainer extends Component {
         break;
       case('concert'):
         component = <ConcertView/>;
+        break;
+      case('events'):
+        component = <GoogleCalendarList/>;
+        break;
+      default:
+        component = <NotFound/>;
+        break;
     }
     return component
   }
@@ -77,10 +93,11 @@ class MainContainer extends Component {
     return (
       <div>
         <Header
+          as='h2'
           style={{
             color: 'ivory',
-            fontFamily: 'Tahoma',
-            fontSize: 20
+            fontSize: 24,
+            marginBottom: '1em'
           }}>
           Find concerts of related artists in your area
         </Header>

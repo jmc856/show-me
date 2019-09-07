@@ -13,6 +13,7 @@ export const RESET_PROPS = 'RESET_PROPS';
 
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 
+export const LIST_GOOGLE_CALENDAR_EVENTS = 'LIST_GOOGLE_CALENDAR_EVENTS';
 
 export const setActiveTab = (name) => {
   return {type: SET_ACTIVE_TAB, activeTab: name}
@@ -46,3 +47,7 @@ export const setConcerts = (concerts) => {
 export const resetProps = () => {
   return {type: RESET_PROPS}
 };
+
+export const listGoogleCalendarEvents = (events) => {
+  return {type: LIST_GOOGLE_CALENDAR_EVENTS, googleCalendarEvents: events}
+}
