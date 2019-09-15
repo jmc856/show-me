@@ -23,9 +23,8 @@ Improvements (Necessary)
 - Do not allow adding duplicate
 - Minify JS on production
 - Show all related artists in list
-- Better highlighting on Menu tabs
 - Remove duplicates in concert list
-- Remove white when scrolling page
+- Sticky menu bar
 - Make more mobile friendly 
 - Concerts should list in order of date
 
