@@ -1,7 +1,21 @@
 import React, { Component } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 
-import {Button, Icon} from "semantic-ui-react";
+import {Button, Icon, Popup} from "semantic-ui-react";
+
+
+const styles = {
+ search: {
+   width: '100%',
+   textAlign: 'center'
+ },
+  button: {
+   margin: 'auto'
+  },
+  icon: {
+   margin: 'auto'
+  }
+};
 
 
 class GoogleCalendarAdd extends Component {
@@ -51,10 +65,18 @@ class GoogleCalendarAdd extends Component {
     const { sign } = this.state;
     return (
       <div>
-        <Button
-          onClick={sign ? this.createEvent : this.googleLogin} >
-          <Icon name='plus' />
-        </Button>
+        <Popup
+          trigger={
+            <Button
+              onClick={sign ? this.createEvent : this.googleLogin} >
+              <Icon style={styles.icon} name='calendar alternate outline' />
+            </Button>
+          }
+          content='Added to google calendar'
+          on='click'
+          hideOnScroll
+          mouseLeaveDelay={750}
+        />
       </div>
     );
   }

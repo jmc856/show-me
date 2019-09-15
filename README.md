@@ -20,13 +20,14 @@ Code Cleanup
 - Rename files
 
 Improvements (Necessary)
-- Remove white when scrolling page
-- Concerts should list in order of date
+- Do not allow adding duplicate
+- Minify JS on production
 - Show all related artists in list
-- Add loading spinner for concerts
 - Better highlighting on Menu tabs
+- Remove duplicates in concert list
+- Remove white when scrolling page
 - Make more mobile friendly 
-- Use yarn instead of npm
+- Concerts should list in order of date
 
 Ideas
 - Convert to typescript

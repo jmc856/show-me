@@ -10,6 +10,20 @@ import {bindActionCreators} from "redux";
 import * as actionCreators from "../actions";
 import {connect} from "react-redux";
 
+
+const styles = {
+ search: {
+   width: '100%',
+   textAlign: 'center'
+ },
+  button: {
+   margin: 'auto'
+  },
+  icon: {
+   marginTop: 'auto'
+  }
+};
+
 class ArtistSearch extends Component {
   state = {
     artistInput: '',
@@ -41,12 +55,12 @@ class ArtistSearch extends Component {
       const image = selectedArtist.images.length > 0 ? selectedArtist.images[0].url : null;
       return (
         <List.Item key={'selectedArtist'}>
-          { image && <Image avatar src={image}/> }
+          { image && <Image style={{marginLeft: '10px'}} floated='left' avatar src={image}/> }
           <List.Content>
             <List.Header style={{color: 'ivory'}}>{selectedArtist.name}</List.Header>
           </List.Content>
-          <Button floated='right' onClick={this._handleCancel}>
-            <Icon name='cancel' color='red'/>
+          <Button style={styles.button} floated='right' onClick={this._handleCancel}>
+            <Icon style={styles.icon} name='cancel' color='red'/>
           </Button>
         </List.Item>
       )
@@ -59,7 +73,7 @@ class ArtistSearch extends Component {
               style={{fontSize: '20px'}}
               key={i}
               onClick={() => this._handleSelectArtist(artist)}>
-              { image && <Image floated='left' avatar src={image}/> }
+              { <Image style={{marginLeft: '10px'}} floated='left' avatar src={image || null}/> }
               <List.Content>
                 <List.Header style={{color: 'ivory'}}>{name}</List.Header>
               </List.Content>
@@ -74,6 +88,7 @@ class ArtistSearch extends Component {
       <div >
         <Input
           id="artistInput"
+          style={styles.search}
           // loading
           placeholder='Search Artist'
           onChange={ this._handleInputChange}
@@ -82,7 +97,7 @@ class ArtistSearch extends Component {
             onClick: this._handleArtistInputClick
           }}
         />
-        <List>
+        <List animated divided verticalAlign='middle'>
           { this._getArtistDiv() }
         </List>
       </div>

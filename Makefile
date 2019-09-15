@@ -2,4 +2,4 @@ run:
 	npm start
 
 setup:
-	npm install
+	yarn install

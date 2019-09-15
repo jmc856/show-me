@@ -11,6 +11,21 @@ import {
   getLocations,
 } from "../actions";
 
+
+const styles = {
+ search: {
+   width: '100%',
+   textAlign: 'center'
+ },
+  button: {
+   margin: 'auto'
+  },
+  icon: {
+   margin: 'auto'
+  }
+};
+
+
 class LocationSearch extends Component {
   state = {
     cityInput: '',
@@ -42,8 +57,8 @@ class LocationSearch extends Component {
           style={{fontSize: '20px'}}
           key={'selectedLocation'}>{this.props.selectedLocation.metroArea.displayName}
           <List.Content floated='right'>
-            <Button onClick={this._handleCancel}>
-              <Icon name='cancel' color='red'/>
+            <Button style={styles.button} onClick={this._handleCancel}>
+              <Icon style={styles.icon} name='cancel' color='red'/>
             </Button>
           </List.Content>
         </List.Item>
@@ -70,6 +85,7 @@ class LocationSearch extends Component {
     return (
       <div>
         <Input
+          style={styles.search}
           id="cityInput"
           placeholder='Search City'
           onChange={this._handleInputChange}
@@ -79,7 +95,7 @@ class LocationSearch extends Component {
             onClick: this._handleCityInputClick
           }}
         />
-        <List>
+        <List animated divided verticalAlign='middle'>
           { this._getLocationList() }
         </List>
       </div>

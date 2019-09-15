@@ -16,6 +16,18 @@ import LocationSearch from './locationSearch';
 import NotFound from './NotFound';
 
 
+const styles = {
+  menuItemActive: {
+    background: '#d1d1df',
+  },
+  menuItemInactive: {
+  },
+  menuItemUnClickable: {
+    color: '#ababab'
+  }
+};
+
+
 class MainContainer extends Component {
 
   handleItemClick = (e, { name }) => {
@@ -29,6 +41,7 @@ class MainContainer extends Component {
     showMenuItem() {
       const canClickArtists = Boolean(this.props.selectedLocation);
       const canClickConcerts = Boolean(this.props.selectedLocation && this.props.selectedArtist);
+      const { activeTab } = this.props;
       return (
         <Menu stackable>
           {/*<Menu.Item>*/}
@@ -36,20 +49,23 @@ class MainContainer extends Component {
           {/*</Menu.Item>*/}
 
           <Menu.Item
+            style={activeTab === 'location' ? styles.menuItemActive : styles.menuItemInactive}
             name='location'
-            active={true}
+            active={activeTab === 'location'}
             onClick={this.handleItemClick}>
             Location
           </Menu.Item>
           <Menu.Item
+            style={activeTab === 'artist' ? styles.menuItemActive : (canClickArtists ? styles.menuItemInactive : styles.menuItemUnClickable)}
             name='artist'
-            active={canClickArtists}
+            active={this.props.activeTab === 'artist'}
             onClick={canClickArtists && this.handleItemClick}>
-            Artist
+            Artists
           </Menu.Item>
           <Menu.Item
+            style={activeTab === 'concert' ? styles.menuItemActive : (canClickConcerts ? styles.menuItemInactive : styles.menuItemUnClickable)}
             name='concert'
-            active={canClickConcerts}
+            active={this.props.activeTab === 'concert'}
             onClick={canClickConcerts && this.handleItemClick}>
             Concerts
           </Menu.Item>
@@ -91,7 +107,7 @@ class MainContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{margin: '20px'}}>
         <Header
           as='h2'
           style={{

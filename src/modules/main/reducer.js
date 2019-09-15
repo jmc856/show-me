@@ -3,6 +3,7 @@ import * as actions from './actions'
 const initialState = {
   activeTab: 'location',
   accessToken: null,
+  googleCalendarEvents: [],
   locations: [],
   selectedLocation: null,
   artists: [],
@@ -49,10 +50,10 @@ export default function appReducer(state = initialState, action) {
         ...state,
         accessToken: action.accessToken,
       };
-    case actions.LIST_GOOGLE_CALENDAR_EVENTS:
+    case actions.SET_GOOGLE_CALENDAR_EVENTS:
       return {
         ...state,
-        googleCalendarEvents: action.googleCalendarEvents
+        googleCalendarEvents: action.googleCalendarEvents || []
       };
     case actions.RESET_PROPS:
       return {

@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import { Table } from "semantic-ui-react";
+import Loading from "./loading";
 import songkickLogo from '../../../assets/songkick/powered-by-songkick-white.png'
 import * as actionCreators from "../actions";
 
@@ -11,6 +12,18 @@ import '../../../App.css';
 import { getRelatedArtists } from '../../../modules/spotify/actions';
 import { getConcertsFromSpotifyArtistList } from "../../../modules/songkick/actions";
 import GoogleCalendarAdd from "./googleCalendarAdd";
+
+
+const styles = {
+  tableCell: {
+    textAlign: 'center',
+    fontSize: '14px',
+    color: '#2b2b1b'
+  },
+  tableHeader: {
+    textAlign: 'center'
+  },
+};
 
 
 class ConcertView extends Component {
@@ -52,15 +65,15 @@ class ConcertView extends Component {
       return (
         metroId === this.props.selectedLocation.metroArea.id &&
         <Table.Row key={i}>
-          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>{artistName}</Table.Cell>
-          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>
+          <Table.Cell style={styles.tableCell}>{artistName}</Table.Cell>
+          <Table.Cell style={styles.tableCell}>
             {/*https://mathiasbynens.github.io/rel-noopener/#hax*/}
             <a href={concert.uri} target="_blank" rel="noopener noreferrer">{name}</a>
           </Table.Cell>
-          <Table.Cell style={{fontSize: '14px', color: '#2b2b1b'}}>
+          <Table.Cell style={styles.tableCell}>
             <a href={venueUri} target="_blank" rel="noopener noreferrer">{venueName}</a>
           </Table.Cell>
-          <Table.Cell textAlign='center' style={{fontSize: '14px', color: '#2b2b1b'}}>
+          <Table.Cell textAlign='center' style={styles.tableCell}>
             {/*// TODO: Pass in valid event information*/}
             <GoogleCalendarAdd event={event}/>
           </Table.Cell>
@@ -73,31 +86,30 @@ class ConcertView extends Component {
     return <img src={songkickLogo} alt="Logo" height="30px" />
   }
 
-  _handleAddToCalendar = (e) => {
-    // if (!this.isGoogleAuthed()) {}
-    console.log('jeff')
-  };
-
   render() {
     const concerts = this.props.concerts;
-    return (
-      <div>
-        <Table size='small' celled padded>
+    if (concerts.length > 0) {
+      return (
+        <div>
+          <Table size='small' celled padded>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell singleLine>Related Artist</Table.HeaderCell>
-              <Table.HeaderCell>Concert</Table.HeaderCell>
-              <Table.HeaderCell>Venue</Table.HeaderCell>
-              <Table.HeaderCell>Add to Google Calendar</Table.HeaderCell>
+              <Table.HeaderCell style={styles.tableHeader} singleLine>Related Artist</Table.HeaderCell>
+              <Table.HeaderCell style={styles.tableHeader} >Concert</Table.HeaderCell>
+              <Table.HeaderCell style={styles.tableHeader} >Venue</Table.HeaderCell>
+              <Table.HeaderCell style={styles.tableHeader} >Add to Google Calendar</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-         { concerts && this._getConcertRows() }
+         { this._getConcertRows() }
           </Table.Body>
         </Table>
-        { (concerts && concerts.length > 0) && this.getSongKickLogo() }
+        { this.getSongKickLogo() }
       </div>
-    );
+      )
+    } else {
+     return <Loading/>
+    }
   }
 }
 
