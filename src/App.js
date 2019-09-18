@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Button, Icon } from "semantic-ui-react";
 
-import MainContainer from './modules/main/components/mainContainer';
-import ShowMe from "./modules/main/components/showMe";
-import {Button, Icon} from "semantic-ui-react";
+import Menu from './modules/menu/components/Menu';
+import ShowMe from "./modules/menu/components/ShowMe";
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 const scopes = 'user-read-private user-read-email';
@@ -72,7 +72,7 @@ class App extends Component {
                 <Icon name='spotify' /> Login to Spotify
               </Button>
             </div> :
-              <MainContainer/>
+              <Menu/>
           }
         </header>
       </div>

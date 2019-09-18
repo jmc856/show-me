@@ -7,7 +7,6 @@ const style = {
   header: {
     fontSize: '4em',
     fontWeight: 'normal',
-    // marginTop: '1em',
     marginBottom: '1em',
   }
 };

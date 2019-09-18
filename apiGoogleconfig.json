@@ -1,6 +1,6 @@
 {
-  "clientId": "570358211667-flik37lknj0to83372q9iaku5kd2oprd.apps.googleusercontent.com",
-  "apiKey": "AIzaSyDC8qI1YYvTVTeGPhwTR7EK4Ufn9B_Bw2Y",
+  "clientId": "GOOGLE_CALENDAR_CLIENT_ID",
+  "apiKey": "GOOGLE_CALENDAR_API_KEY",
   "scope": "https://www.googleapis.com/auth/calendar",
   "discoveryDocs": ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"]
 }

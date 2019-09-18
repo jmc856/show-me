@@ -1,5 +1,6 @@
 # ShowMe
-Web App to help find concerts in your area for artists similar to ones that you like
+- Web App to help find concerts in your area for artists similar to ones that you like
+- Hosted at: https://show-me0.herokuapp.com
 
 ## To run locally
 - make setup

@@ -1,4 +1,8 @@
-import * as actions from './actions'
+import * as menuActions from '../menu/actions'
+import * as artistActions from '../artists/actions'
+import * as concertActions from '../concerts/actions'
+import * as googleCalendarActions from '../googleCalendar/actions'
+import * as locationActions from '../locations/actions'
 
 const initialState = {
   activeTab: 'location',
@@ -14,48 +18,47 @@ const initialState = {
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.SET_ACTIVE_TAB:
+    case menuActions.SET_ACTIVE_TAB:
       return {
         ...state,
         activeTab: action.activeTab,
     };
-    case actions.SET_LOCATIONS:
+    case locationActions.SET_LOCATIONS:
       return {
         ...state,
         locations: action.locations
       };
-    case actions.SELECT_LOCATION:
+    case locationActions.SELECT_LOCATION:
       return {
         ...state,
         selectedLocation: action.location,
       };
-    case actions.SET_ARTISTS:
+    case artistActions.SET_ARTISTS:
       return {
         ...state,
         artists: action.artists
       };
-    case actions.SELECT_ARTIST:
+    case artistActions.SELECT_ARTIST:
       return {
         ...state,
         selectedArtist: action.artist,
       };
-    case actions.SET_CONCERTS:
-
+    case concertActions.SET_CONCERTS:
       return {
         ...state,
         concerts: action.concerts,
       };
-    case actions.SET_ACCESS_TOKEN:
+    case menuActions.SET_ACCESS_TOKEN:
       return {
         ...state,
         accessToken: action.accessToken,
       };
-    case actions.SET_GOOGLE_CALENDAR_EVENTS:
+    case googleCalendarActions.SET_GOOGLE_CALENDAR_EVENTS:
       return {
         ...state,
         googleCalendarEvents: action.googleCalendarEvents || []
       };
-    case actions.RESET_PROPS:
+    case menuActions.RESET_PROPS:
       return {
         ...initialState,
       };

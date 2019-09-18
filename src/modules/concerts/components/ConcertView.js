@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import '../../../App.css';
 
 import { Table } from "semantic-ui-react";
-import Loading from "./loading";
+import Loading from "../../../common/components/Loading";
 import songkickLogo from '../../../assets/songkick/powered-by-songkick-white.png'
 import * as actionCreators from "../actions";
 
-import '../../../App.css';
-
 import { getRelatedArtists } from '../../../modules/spotify/actions';
 import { getConcertsFromSpotifyArtistList } from "../../../modules/songkick/actions";
-import GoogleCalendarAdd from "./googleCalendarAdd";
+import GoogleCalendarAdd from "../../../modules/googleCalendar/components/GoogleCalendarAdd";
 
 
 const styles = {

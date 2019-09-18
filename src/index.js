@@ -8,8 +8,9 @@ import * as serviceWorker from './serviceWorker';
 
 
 import { createStore, } from 'redux'
-import appReducer from '../src/modules/main/reducer'
+import appReducer from '../src/modules/menu/reducer'
 
+// TODO: Break this out into module specific reducers
 const store = createStore(
   appReducer,
 );

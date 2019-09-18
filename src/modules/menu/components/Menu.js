@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import "semantic-ui-css/semantic.min.css";
 import '../../../App.css';
+import "semantic-ui-css/semantic.min.css";
+import { Header, Menu } from "semantic-ui-react";
 
 import * as actionCreators from "../actions";
 
-import {Header, Menu} from "semantic-ui-react";
-
-import ArtistSearch from './artistSearch';
-import ConcertView from './concertView';
-import GoogleCalendarList from './googleCalendarList';
-import LocationSearch from './locationSearch';
-import NotFound from './NotFound';
+import ArtistSearch from '../../artists/components/ArtistSearch';
+import ConcertView from '../../concerts/components/ConcertView';
+import GoogleCalendarList from '../../googleCalendar/components/GoogleCalendarList';
+import LocationSearch from '../../locations/components/LocationSearch';
+import NotFound from '../../../common/components/NotFound';
 
 
 const styles = {
@@ -28,7 +27,7 @@ const styles = {
 };
 
 
-class MainContainer extends Component {
+class MenuComponent extends Component {
 
   handleItemClick = (e, { name }) => {
     this.props.actions.setActiveTab(name);
@@ -139,4 +138,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuComponent);

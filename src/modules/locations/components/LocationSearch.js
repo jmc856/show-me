@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import * as actionCreators from '../actions'
 
 import '../../../App.css';
-
 import { Button, Icon, Input, List } from "semantic-ui-react";
 
-import {
-  getLocations,
-} from "../actions";
+import * as actionCreators from '../actions'
+import { getLocations } from "../../songkick/actions";
 
 
 const styles = {

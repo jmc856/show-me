@@ -50,7 +50,12 @@ async function getSongkickArtistFromSpotifyArtist(name) {
 }
 
 
-export async function searchMetroId(searchQuery) {
+export async function getLocations(city) {
+  const locations = await searchMetroId(city);
+  return locations.resultsPage.results.location
+}
+
+async function searchMetroId(searchQuery) {
   const response = await makeSongkickRequest(
     `https://api.songkick.com/api/3.0/search/locations.json?query=${searchQuery}&apikey=${apiKey}`
   );

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
+
+import { Button, Icon, Image, Input, List } from "semantic-ui-react";
 import '../../../App.css';
 
-import {Button, Icon, Image, Input, List} from "semantic-ui-react";
-
-import {
-  searchArtist as searchSpotifyArtist,
-} from '../../../modules/spotify/actions';
-import {bindActionCreators} from "redux";
+import { searchArtist as searchSpotifyArtist } from '../../../modules/spotify/actions';
 import * as actionCreators from "../actions";
-import {connect} from "react-redux";
 
 
 const styles = {

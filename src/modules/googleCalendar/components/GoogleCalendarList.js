@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import ApiCalendar from 'react-google-calendar-api';
-
 import { Table } from "semantic-ui-react";
+
 import * as actionCreators from "../actions";
 
 

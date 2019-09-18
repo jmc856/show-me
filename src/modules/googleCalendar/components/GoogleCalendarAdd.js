@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 
-import {Button, Icon, Popup} from "semantic-ui-react";
+import { Button, Icon, Popup } from "semantic-ui-react";
 
 
 const styles = {
