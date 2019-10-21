@@ -10,16 +10,14 @@ const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
 
 
 class App extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = { tokenExpired: true };
   }
 
   componentDidMount() {
-    const code =
-      window.location.href.match(/access_token=(.*)/) &&
-      window.location.href.match(/access_token=(.*)/)[1];
-
+    const token: RegExpMatchArray | null = window.location.href.match(/access_token=(.*)/);
+    const code: string | null = token && token[1];
     if (code) {
       const accessToken = code.split("&");
       const expires = parseInt(accessToken[2].split('=')[1]);
@@ -36,7 +34,7 @@ class App extends Component {
   }
 
   static getAuthorizationUrl() {
-    return 'https://accounts.spotify.com/authorize' +
+    return REDIRECT_URI && 'https://accounts.spotify.com/authorize' +
       '?response_type=token' +
       '&client_id=' +
       CLIENT_ID +

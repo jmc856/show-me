@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
 
 import '../../../App.css';
 import { Button, Icon, Input, List } from "semantic-ui-react";
 
-import * as actionCreators from '../actions'
+import { Location } from "../types";
+import { selectLocation, setLocations } from "../actions";
 import { getLocations } from "../../songkick/actions";
 
 
@@ -23,28 +23,37 @@ const styles = {
 };
 
 
-class LocationSearch extends Component {
+interface LocationSearchProps {
+    locations: Location[];
+    selectLocation: (location: Location) => void;
+    selectedLocation: Location;
+    setLocations: (locations: Location[]) => void;
+}
+
+interface LocationSearchState {
+    locationInput: string
+}
+
+class LocationSearch extends Component<LocationSearchProps, LocationSearchState> {
   state = {
-    cityInput: '',
+    locationInput: '',
   };
 
   _handleCancel = () => {
-    this.props.actions.selectLocation(null)
+    this.props.selectLocation(null)
   };
 
   _handleCityInputClick = async() => {
-    const locations = await getLocations(this.state.cityInput);
-    this.props.actions.setLocations(locations);
+    const locations = await getLocations(this.state.locationInput);
+    this.props.setLocations(locations);
   };
 
-  _handleInputChange = (e) => {
-    this.setState({
-      [e.currentTarget.id]: e.target.value,
-    })
+  _handleInputChange = (e: any) => {
+    this.setState({ locationInput: e.target.value })
   };
 
-  _handleSelectLocation = (location) => {
-    this.props.actions.selectLocation(location);
+  _handleSelectLocation = (location: Location) => {
+    this.props.selectLocation(location);
   };
 
   _getLocationList = () => {
@@ -83,7 +92,7 @@ class LocationSearch extends Component {
       <div>
         <Input
           style={styles.search}
-          id="cityInput"
+          id="locationInput"
           placeholder='Search City'
           onChange={this._handleInputChange}
           action={{
@@ -100,17 +109,14 @@ class LocationSearch extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      locations: state.locations,
-      selectedLocation: state.selectedLocation,
-    };
-};
+const mapStateToProps = (state: any) => ({
+    locations: state.locations,
+    selectedLocation: state.selectedLocation,
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: bindActionCreators(actionCreators, dispatch),
-    };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+    selectLocation: (location: Location) => dispatch(selectLocation(location)),
+    setLocations: (locations: Location[]) => dispatch(setLocations(locations)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LocationSearch);

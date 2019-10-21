@@ -17,9 +17,6 @@
 BUGS
 - ..
 
-Code Cleanup
-- Rename files
-
 Improvements (Necessary)
 - Do not allow adding duplicate
 - Minify JS on production

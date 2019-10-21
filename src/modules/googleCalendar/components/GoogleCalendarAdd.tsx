@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+// @ts-ignore
 import ApiCalendar from 'react-google-calendar-api';
 
 import { Button, Icon, Popup } from "semantic-ui-react";
 
+import { Calendar, Event } from "../types";
 
 const styles = {
  search: {
@@ -17,9 +19,15 @@ const styles = {
   }
 };
 
+interface GoogleCalendarAddProps {
+    event: Event
+}
+interface GoogleCalendarAddState {
+    sign: boolean;
+}
 
-class GoogleCalendarAdd extends Component {
-  constructor(props) {
+class GoogleCalendarAdd extends Component<GoogleCalendarAddProps, GoogleCalendarAddState> {
+  constructor(props: GoogleCalendarAddProps) {
     super(props);
     this.state = {
       sign: ApiCalendar.sign,
@@ -30,14 +38,12 @@ class GoogleCalendarAdd extends Component {
     });
   }
 
-  signUpdate(sign) {
-    this.setState({
-      sign
-    })
+  signUpdate(sign: boolean) {
+    this.setState({ sign })
   }
 
-  googleLogin = (e) => {
-    if (this.state.sign === false) {
+  googleLogin = (e: any) => {
+    if (!this.state.sign) {
       ApiCalendar.handleAuthClick();
     }
     // TODO: List events on / after google login
@@ -46,17 +52,17 @@ class GoogleCalendarAdd extends Component {
     // }
   };
 
-  setCalendar = (calendar) => {
+  setCalendar = (calendar: Calendar) => {
     ApiCalendar.setCalendar(calendar);
   };
 
   createEvent = () => {
     const { event } = this.props;
     ApiCalendar.createEvent(event)
-      .then((result) => {
+      .then((result: any) => {
         console.log(result);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.log(error);
       });
   };

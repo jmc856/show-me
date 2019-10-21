@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
 
 import '../../../App.css';
 import "semantic-ui-css/semantic.min.css";
 import { Header, Menu } from "semantic-ui-react";
 
-import * as actionCreators from "../actions";
+import { setActiveTab, resetProps } from "../actions";
 
 import ArtistSearch from '../../artists/components/ArtistSearch';
 import ConcertView from '../../concerts/components/ConcertView';
@@ -14,6 +13,8 @@ import GoogleCalendarList from '../../googleCalendar/components/GoogleCalendarLi
 import LocationSearch from '../../locations/components/LocationSearch';
 import NotFound from '../../../common/components/NotFound';
 
+import { Location } from "../../locations/types";
+import { Artist } from "../../artists/types";
 
 const styles = {
   menuItemActive: {
@@ -27,45 +28,61 @@ const styles = {
 };
 
 
-class MenuComponent extends Component {
+interface MenuProps {
+    activeTab: string;
+    selectedArtist: Artist;
+    selectedLocation: Location;
+    setActiveTab: (tab: string) => void;
+    resetProps: () => void;
+}
 
-  handleItemClick = (e, { name }) => {
-    this.props.actions.setActiveTab(name);
+class MenuComponent extends Component<MenuProps> {
+
+    _canClickArtists = () => {
+       return Boolean(this.props.selectedLocation);
+    };
+
+    _canClickConcerts = () => {
+       return Boolean(this.props.selectedLocation && this.props.selectedArtist);
+    };
+
+    handleChangeTab = (tab: string) => {
+      if (
+        (tab === 'artist' && !this._canClickArtists()) ||
+        (tab === 'concert' && !this._canClickConcerts())
+      ) {
+        return
+      }
+      this.props.setActiveTab(tab);
   };
 
   reset = () => {
-    this.props.actions.resetProps()
+    this.props.resetProps()
   };
 
     showMenuItem() {
-      const canClickArtists = Boolean(this.props.selectedLocation);
-      const canClickConcerts = Boolean(this.props.selectedLocation && this.props.selectedArtist);
       const { activeTab } = this.props;
       return (
         <Menu stackable>
-          {/*<Menu.Item>*/}
-            {/*<img src='https://commons.wikimedia.org/wiki/File:Something_He_Can_Feel_by_Aretha_Franklin_US_vinyl.png'/>*/}
-          {/*</Menu.Item>*/}
-
           <Menu.Item
             style={activeTab === 'location' ? styles.menuItemActive : styles.menuItemInactive}
             name='location'
             active={activeTab === 'location'}
-            onClick={this.handleItemClick}>
+            onClick={ () => this.handleChangeTab('location') }>
             Location
           </Menu.Item>
           <Menu.Item
-            style={activeTab === 'artist' ? styles.menuItemActive : (canClickArtists ? styles.menuItemInactive : styles.menuItemUnClickable)}
+            style={activeTab === 'artist' ? styles.menuItemActive : (this._canClickArtists() ? styles.menuItemInactive : styles.menuItemUnClickable)}
             name='artist'
             active={this.props.activeTab === 'artist'}
-            onClick={canClickArtists && this.handleItemClick}>
+            onClick={ () => this.handleChangeTab('artist') }>
             Artists
           </Menu.Item>
           <Menu.Item
-            style={activeTab === 'concert' ? styles.menuItemActive : (canClickConcerts ? styles.menuItemInactive : styles.menuItemUnClickable)}
+            style={activeTab === 'concert' ? styles.menuItemActive : (this._canClickConcerts() ? styles.menuItemInactive : styles.menuItemUnClickable)}
             name='concert'
             active={this.props.activeTab === 'concert'}
-            onClick={canClickConcerts && this.handleItemClick}>
+            onClick={ () => this.handleChangeTab('concert') }>
             Concerts
           </Menu.Item>
           <Menu.Item
@@ -75,7 +92,7 @@ class MenuComponent extends Component {
           </Menu.Item>
           <Menu.Item
             name='events'
-            onClick={this.handleItemClick}>
+            onClick={ () => this.handleChangeTab('events') }>
             My Events
           </Menu.Item>
         </Menu>
@@ -123,7 +140,7 @@ class MenuComponent extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
     return {
       activeTab: state.activeTab,
       artists: state.artists,
@@ -132,10 +149,9 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      actions: bindActionCreators(actionCreators, dispatch),
-    };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+    setActiveTab: (tab: string) => dispatch(setActiveTab(tab)),
+    resetProps: () => dispatch(resetProps()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuComponent);

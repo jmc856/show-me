@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { Header } from "semantic-ui-react";
 
-
 const style = {
   header: {
     fontSize: '4em',

@@ -1,4 +1,4 @@
-async function makeRequest(url, method) {
+async function makeRequest(url: string, method: string) {
   const accessToken = window.localStorage.getItem('spotifyAccessToken');
   let token = null;
   let type = null;
@@ -21,7 +21,7 @@ async function makeRequest(url, method) {
   return json
 }
 
-export async function getRelatedArtists(artistId) {
+export async function getRelatedArtists(artistId: number) {
   const json = await makeRequest(
     `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
     'GET'
@@ -29,12 +29,15 @@ export async function getRelatedArtists(artistId) {
   return json.artists
 }
 
-export async function searchArtist() {
+export async function searchArtist(...args: any) {
   let searchTerm = '';
+  // @ts-ignore
   for (var i = 0; i < arguments.length; i++) {
     if (searchTerm === '') {
+      // @ts-ignore
       searchTerm += arguments[i];
     } else {
+      // @ts-ignore
       searchTerm += `+${arguments[i]}`
     }
   }

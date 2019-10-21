@@ -4,7 +4,7 @@ export const RESET_PROPS = 'RESET_PROPS';
 
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 
-export const setActiveTab = (name) => {
+export const setActiveTab = (name: string) => {
   return {type: SET_ACTIVE_TAB, activeTab: name}
 };
 

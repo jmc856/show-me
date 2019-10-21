@@ -16,7 +16,7 @@ const initialState = {
 };
 
 
-export default function appReducer(state = initialState, action) {
+export default function appReducer(state = initialState, action: any) {
   switch (action.type) {
     case menuActions.SET_ACTIVE_TAB:
       return {

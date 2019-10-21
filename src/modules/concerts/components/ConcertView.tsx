@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import '../../../App.css';
 
 import { Table } from "semantic-ui-react";
 import Loading from "../../../common/components/Loading";
 import songkickLogo from '../../../assets/songkick/powered-by-songkick-white.png'
-import * as actionCreators from "../actions";
+import { setConcerts } from "../actions";
+import { Concert } from "../types";
+import { Artist } from "../../artists/types";
+import { Location } from '../../locations/types';
 
-import { getRelatedArtists } from '../../../modules/spotify/actions';
-import { getConcertsFromSpotifyArtistList } from "../../../modules/songkick/actions";
+import { getRelatedArtists } from '../../spotify/actions';
+import { getConcertsFromSpotifyArtistList } from "../../songkick/actions";
 import GoogleCalendarAdd from "../../../modules/googleCalendar/components/GoogleCalendarAdd";
 
 
@@ -24,16 +26,22 @@ const styles = {
   },
 };
 
+interface ConcertViewProps {
+  concerts: Concert[];
+  selectedArtist: Artist;
+  selectedLocation: Location;
+  setConcerts: (concerts: Concert[]) => void;
+}
 
-class ConcertView extends Component {
+class ConcertView extends Component<ConcertViewProps> {
   componentDidMount() {
     this._findConcerts(this.props.selectedArtist)
   }
 
-  _findConcerts = async(selectedArtist) => {
+  _findConcerts = async(selectedArtist: Artist) => {
     const relatedArtists = await getRelatedArtists(selectedArtist.id);
     const concerts = await getConcertsFromSpotifyArtistList(relatedArtists);
-    this.props.concertActions.setConcerts(concerts);
+    this.props.setConcerts(concerts);
     // NOTE: Timeout is a hack for re-rendering after concerts are set
     setTimeout(() => {this.forceUpdate();}, 1000)
   };
@@ -112,18 +120,14 @@ class ConcertView extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      concerts: state.concerts,
-      selectedLocation: state.selectedLocation,
-      selectedArtist: state.selectedArtist,
-    };
-};
+const mapStateToProps = (state: any) => ({
+  concerts: state.concerts,
+  selectedLocation: state.selectedLocation,
+  selectedArtist: state.selectedArtist,
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        concertActions: bindActionCreators(actionCreators, dispatch),
-    };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  setConcerts: (concerts: Concert[]) => dispatch(setConcerts(concerts)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConcertView);
