@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from "redux";
 import {connect} from "react-redux";
 
 import { Button, Icon, Image, Input, List } from "semantic-ui-react";
 import '../../../App.css';
 
+import { Artist } from "../types";
 import { searchArtist as searchSpotifyArtist } from '../../../modules/spotify/actions';
-import * as actionCreators from "../actions";
+import { setArtists, selectArtist } from "../actions";
 
 
 const styles = {
@@ -22,29 +22,41 @@ const styles = {
   }
 };
 
-class ArtistSearch extends Component {
-  state = {
-    artistInput: '',
-  };
+interface ArtistSearchProps {
+    artists: Artist[];
+    selectedArtist: Artist;
+    selectArtist: (artists: Artist[] | null) => void;
+    setArtists: (artist: Artist) => void;
+}
+
+interface ArtistSearchState {
+    artistInput: string;
+}
+
+class ArtistSearch extends Component<ArtistSearchProps, ArtistSearchState> {
+    constructor(props: ArtistSearchProps) {
+        super(props);
+
+    this.state = {
+      artistInput: '',
+    };
+  }
 
   _handleArtistInputClick = async() => {
     const artists = await searchSpotifyArtist(this.state.artistInput);
-    this.props.artistActions.setArtists(artists);
+    this.props.setArtists(artists);
   };
 
   _handleCancel = () => {
-    this.props.artistActions.selectArtist(null);
-    this.props.artistActions.setConcerts(null)
+    this.props.selectArtist(null);
+    // this.props.setConcerts(null)
   };
 
-  _handleInputChange = (e) => {
-    this.setState({
-      [e.currentTarget.id]: e.target.value,
-    })
-  };
+  _handleInputChange = (e: any) => {
+    this.setState({artistInput: e.target.value })};
 
-  _handleSelectArtist = (artist) => {
-    this.props.artistActions.selectArtist(artist)
+  _handleSelectArtist = (artist: Artist) => {
+    this.props.selectArtist(artist)
   };
 
   _getArtistDiv = () => {
@@ -103,17 +115,14 @@ class ArtistSearch extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      artists: state.artists,
-      selectedArtist: state.selectedArtist,
-    };
-};
+const mapStateToProps = (state: any) => ({
+    artists: state.artists,
+    selectedArtist: state.selectedArtist,
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        artistActions: bindActionCreators(actionCreators, dispatch),
-    };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+    selectArtist: (artist: Artist) => dispatch(selectArtist(artist)),
+    setArtists: (artists: Artist[]) => dispatch(setArtists(artists)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArtistSearch);

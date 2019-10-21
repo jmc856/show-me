@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
+// @ts-ignore
 import ApiCalendar from 'react-google-calendar-api';
 import { Table } from "semantic-ui-react";
 
-import * as actionCreators from "../actions";
+import { Event } from "../types";
+import { setGoogleCalendarEvents } from "../actions";
 
 
 const styles = {
@@ -20,9 +21,17 @@ const styles = {
   },
 };
 
+interface GoogleCalendarListState {
+  sign: boolean
+}
 
-class GoogleCalendarList extends Component {
-  constructor(props) {
+interface GoogleCalendarListProps {
+  googleCalendarEvents: Event[];
+  setGoogleCalendarEvents: (events: Event[]) => void;
+}
+
+class GoogleCalendarList extends Component<GoogleCalendarListProps, GoogleCalendarListState> {
+  constructor(props: GoogleCalendarListProps) {
     super(props);
     this.state = {
       sign: ApiCalendar.sign,
@@ -33,14 +42,12 @@ class GoogleCalendarList extends Component {
     });
   }
 
-  signUpdate(sign) {
-    this.setState({
-      sign
-    })
+  signUpdate(sign: boolean) {
+    this.setState({ sign })
   }
 
-  googleLogin = (e) => {
-    if (this.state.sign === false) {
+  googleLogin = () => {
+    if (!this.state.sign) {
       ApiCalendar.handleAuthClick();
     } else {
       this.listEvents();
@@ -55,8 +62,8 @@ class GoogleCalendarList extends Component {
     // TODO: Get more than 5 events
     // Get google calendar events from API and set to the store
     // Can only retrieve 5 events per call
-    ApiCalendar.listUpcomingEvents(5).then((result) => {
-      this.props.googleCalendarActions.setGoogleCalendarEvents(result.result.items)
+    ApiCalendar.listUpcomingEvents(5).then((result: any) => {
+      this.props.setGoogleCalendarEvents(result.result.items)
     })
   };
 
@@ -64,7 +71,7 @@ class GoogleCalendarList extends Component {
     // TODO: Filter on events created by this application
     const { googleCalendarEvents } = this.props;
     console.log(this.props);
-    return googleCalendarEvents && googleCalendarEvents.map((event, i) => {
+    return googleCalendarEvents && googleCalendarEvents.map((event: Event, i: number) => {
       const summary = event.summary;
       const location = event.location;
       const date = event.start.datetime;
@@ -97,16 +104,12 @@ class GoogleCalendarList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      googleCalendarEvents: state.googleCalendarEvents,
-    };
-};
+const mapStateToProps = (state: any) => ({
+  googleCalendarEvents: state.googleCalendarEvents,
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        googleCalendarActions: bindActionCreators(actionCreators, dispatch),
-    };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  setGoogleCalendarEvents: (events: Event[]) => dispatch(setGoogleCalendarEvents(events)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoogleCalendarList);
